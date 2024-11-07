@@ -1,0 +1,18 @@
+doctype html
+html(lang="en")
+    head
+        title #{title}
+        link(rel="stylesheet", href="/css/style.css")
+    body
+        main
+            h1 You know the rules, and so do I
+            a(href="/") home
+            .form-wrapper
+                form(method="POST")
+                    label(for="name") Name
+                    input(type="text" name="name" required)
+                    label(for="what_you_gonna_give") What you gonna give?
+                    input(type="text" name="what_you_gonna_give")
+                    label(for="direction") Direction?
+                    input(type="text" name="direction")
+                    input(type="submit" value="Submit")

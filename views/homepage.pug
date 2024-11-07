@@ -1,0 +1,19 @@
+//- ** This is a sample of a pug template and how it uses the data passed to it from index.js.
+
+doctype html
+html 
+    head 
+        title= `${title}`
+        meta(name="viewport" content="width=device-width, initial-scale=1")
+        link(rel="stylesheet", href="/css/style.css")
+    body    
+        main
+            h1 dooo do~~~do do do do, dooo do~~~~do do do do
+            a(href="/update-cobj") Add to this table
+            table 
+                tbody
+                each result in results
+                    tr 
+                        td #{result.properties.name} 
+                        td #{result.properties.what_you_gonna_give}
+                        td #{result.properties.direction}

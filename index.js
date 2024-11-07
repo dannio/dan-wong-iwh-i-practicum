@@ -8,15 +8,54 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 // * Please DO NOT INCLUDE the private app access token in your repo. Don't do this practicum in your normal account.
-const PRIVATE_APP_ACCESS = '';
+const PRIVATE_APP_ACCESS = 'pat-na1-a6874a6e-afa0-409f-aa68-17783217a704';
 
 // TODO: ROUTE 1 - Create a new app.get route for the homepage to call your custom object data. Pass this data along to the front-end and create a new pug template in the views folder.
 
-// * Code for Route 1 goes here
+app.get('/', async (req, res) => {
+    const rick_rolls_url = 'https://api.hubspot.com/crm/v3/objects/2-36586586?properties=name,what_you_gonna_give,direction';
+    const headers = {
+        Authorization: `Bearer ${PRIVATE_APP_ACCESS}`,
+        'Content-Type': 'application/json'
+    }
+    try {
+        const response = await axios.get(rick_rolls_url, { headers });
+        res.render('homepage', {
+            results: response.data.results.sort((a, b) =>  new Date(a.createdAt) - new Date(b.createdAt)) 
+        });
+    } catch (error) {
+        console.error(error);
+    }
+})
 
 // TODO: ROUTE 2 - Create a new app.get route for the form to create or update new custom object data. Send this data along in the next route.
 
-// * Code for Route 2 goes here
+app.get('/update-cobj', async (req, res) => {
+    res.render('update', {
+        title: "Update Custom Object Form | Integrating With HubSpot I Practicum"
+    })
+})
+
+app.post('/update-cobj', async (req, res) => {
+    const rick_rolls_url = 'https://api.hubspot.com/crm/v3/objects/2-36586586';
+    const headers = {
+        Authorization: `Bearer ${PRIVATE_APP_ACCESS}`,
+        'Content-Type': 'application/json'
+    }
+    const data = {
+        properties: {
+            "name": req.body.name,
+            "what_you_gonna_give": req.body.what_you_gonna_give,
+            "direction": req.body.direction
+        }
+    }
+    try {
+        const response = await axios.post(rick_rolls_url, data, { headers });
+        res.redirect('/');
+    } catch (error) {
+        console.error(error);
+    }
+})
 
 // TODO: ROUTE 3 - Create a new app.post route for the custom objects form to create or update your custom object data. Once executed, redirect the user to the homepage.
 
